@@ -1,0 +1,23 @@
+[global]
+# Suppress warnings for a cleaner console output
+showWarningOnDirectExecution = false
+
+[browser]
+# Disable usage stats collection
+gatherUsageStats = false
+
+[logger]
+# Set logging level to suppress warnings
+level = "error"
+
+[server]
+# Server configuration for smoother operation
+runOnSave = true
+allowRunOnSave = true
+
+[theme]
+# Optional: Set a professional theme
+primaryColor = "#1f4e79"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f0f2f6"
+textColor = "#262730"
