@@ -308,7 +308,7 @@ def show_dashboard():
     # Recent alerts with improved UI
     st.subheader("🚨 Recent Alerts")
     alerts_data = pd.DataFrame({
-        'Timestamp': ['2024-01-15 14:30:00', '2024-01-15 12:15:00', '2024-01-15 09:45:00'],
+        'Timestamp': ['2024-01-16 01:15:00', '2024-01-16 00:45:00', '2024-01-15 23:30:00'],
         'Location': ['Zone A-3', 'Zone B-1', 'Zone C-2'],
         'Risk Level': ['High', 'Medium', 'High'],
         'Trigger': ['Displacement > 15mm', 'Rainfall threshold', 'Vibration anomaly'],
@@ -442,7 +442,7 @@ def show_dashboard():
         <div class="metric-card">
             <h4>💾 Backup Status</h4>
             <h2>✅</h2>
-            <p>Last: 13:00 today</p>
+            <p>Last: 00:00 today</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -456,9 +456,9 @@ def show_dashboard():
         
         # User cards with better styling
         user_data = [
-            {"name": "Dr. Priya Sharma", "role": "Geotechnical Engineer", "status": "🟢 Online", "last_action": "Generated report (14:30)"},
-            {"name": "Arjun Patel", "role": "Site Manager", "status": "🟢 Online", "last_action": "Acknowledged alert (14:15)"},
-            {"name": "Kavya Nair", "role": "Safety Officer", "status": "🟡 Away", "last_action": "Reviewed safety protocols (13:20)"}
+            {"name": "Dr. Priya Sharma", "role": "Geotechnical Engineer", "status": "🟢 Online", "last_action": "Generated report (01:30)"},
+            {"name": "Arjun Patel", "role": "Site Manager", "status": "🟢 Online", "last_action": "Acknowledged alert (01:15)"},
+            {"name": "Kavya Nair", "role": "Safety Officer", "status": "🟡 Away", "last_action": "Reviewed safety protocols (00:45)"}
         ]
         
         for user in user_data:
@@ -472,13 +472,13 @@ def show_dashboard():
     with info_col2:
         st.markdown("### 📊 System Activity Log")
         
-        # Activity feed with timestamps
+        # Activity feed with timestamps (nighttime monitoring)
         activities = [
-            {"time": "14:30", "action": "Risk report generated", "user": "Dr. Sharma", "type": "📄"},
-            {"time": "14:15", "action": "High-risk alert acknowledged", "user": "Arjun P.", "type": "⚠️"},
-            {"time": "13:45", "action": "System calibration completed", "user": "System", "type": "🔧"},
-            {"time": "13:20", "action": "Safety protocols reviewed", "user": "Kavya N.", "type": "🛡️"},
-            {"time": "13:00", "action": "Automated backup completed", "user": "System", "type": "💾"}
+            {"time": "01:30", "action": "Risk report generated", "user": "Dr. Sharma", "type": "📄"},
+            {"time": "01:15", "action": "High-risk alert acknowledged", "user": "Arjun P.", "type": "⚠️"},
+            {"time": "00:45", "action": "System calibration completed", "user": "System", "type": "🔧"},
+            {"time": "00:30", "action": "Safety protocols reviewed", "user": "Kavya N.", "type": "🛡️"},
+            {"time": "00:00", "action": "Automated backup completed", "user": "System", "type": "💾"}
         ]
         
         for activity in activities:
@@ -486,8 +486,8 @@ def show_dashboard():
             <div style="border-left: 3px solid #1f4e79; padding-left: 12px; margin: 8px 0;">
                 <strong>{activity['type']} {activity['time']}</strong> - {activity['action']}<br>
                 <small>by {activity['user']}</small>
-            </div>
-            """, unsafe_allow_html=True)
+        </div>
+        """, unsafe_allow_html=True)
 
 def show_data_upload():
     st.header("📁 Data Upload & Processing")
