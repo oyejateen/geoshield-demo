@@ -6,8 +6,7 @@ from streamlit_folium import st_folium
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import geopandas as gpd
-from shapely.geometry import Point, Polygon
+# Removed geopandas and shapely for lighter deployment
 import tempfile
 import zipfile
 import io
@@ -900,7 +899,7 @@ def show_risk_report():
         if st.button("📊 Generate HTML Report", type="primary"):
             generate_html_report(report_type, include_charts, include_raw_data, include_recommendations)
         
-        if st.button("📁 Generate Shapefile"):
+        if st.button("📁 Export GIS Data"):
             generate_shapefile()
     
     # Show preview of report
@@ -1008,7 +1007,7 @@ def generate_html_report(report_type, include_charts, include_raw_data, include_
     st.success("✅ HTML report generated successfully!")
 
 def generate_shapefile():
-    """Generate shapefile for QGIS"""
+    """Generate CSV file for GIS (simplified version without geospatial dependencies)"""
     try:
         # Use current monitoring data
         if st.session_state.processed_data is not None:
@@ -1016,38 +1015,22 @@ def generate_shapefile():
         else:
             current_data = generate_sensor_data()
         
-        # Create GeoDataFrame
-        geometry = [Point(xy) for xy in zip(current_data['longitude'], current_data['latitude'])]
-        gdf = gpd.GeoDataFrame(current_data, geometry=geometry, crs='EPSG:4326')
+        # Create CSV buffer for download
+        csv_buffer = io.StringIO()
+        current_data.to_csv(csv_buffer, index=False)
         
-        # Create temporary directory for shapefile components
-        with tempfile.TemporaryDirectory() as temp_dir:
-            shapefile_path = f"{temp_dir}/risk_zones"
-            gdf.to_file(f"{shapefile_path}.shp")
-            
-            # Create zip file with all shapefile components
-            zip_buffer = io.BytesIO()
-            with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
-                for ext in ['.shp', '.shx', '.dbf', '.prj', '.cpg']:
-                    file_path = f"{shapefile_path}{ext}"
-                    try:
-                        zip_file.write(file_path, f"risk_zones{ext}")
-                    except FileNotFoundError:
-                        pass  # Some files might not exist
-            
-            zip_buffer.seek(0)
-            
-            st.download_button(
-                label="📥 Download Shapefile (ZIP)",
-                data=zip_buffer.getvalue(),
-                file_name=f"geoshield_risk_zones_{datetime.now().strftime('%Y%m%d')}.zip",
-                mime="application/zip"
-            )
-            
-            st.success("✅ Shapefile generated successfully! Compatible with QGIS.")
+        st.download_button(
+            label="📥 Download GIS Data (CSV)",
+            data=csv_buffer.getvalue(),
+            file_name=f"geoshield_risk_zones_{datetime.now().strftime('%Y%m%d')}.csv",
+            mime="text/csv"
+        )
+        
+        st.success("✅ GIS data exported successfully! CSV format compatible with QGIS and other GIS software.")
+        st.info("💡 To use in QGIS: Import as CSV layer using longitude/latitude columns for coordinates.")
             
     except Exception as e:
-        st.error(f"❌ Error generating shapefile: {str(e)}")
+        st.error(f"❌ Error generating GIS data: {str(e)}")
 
 def show_ai_assistant():
     st.header("🤖 AI Assistant")
